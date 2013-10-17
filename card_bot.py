@@ -14,6 +14,8 @@ import os
 import time
 import praw
 
+import util
+
 VERSION = "v0.1"
 USER_AGENT = ("Hearthstone Card Bot {} by /u/topher200. "
               "http://github.com:topher200/hearthstone_reddit_card_bot"
@@ -77,10 +79,7 @@ class CardBot(object):
 
 
 def main():
-    logging.basicConfig(
-        level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S')
-
+    util.setup_logging(verbose=True)
     logging.info("Starting card bot")
     card_bot = CardBot()
     card_bot.run()

@@ -12,5 +12,7 @@ pictures and a link to the card.
 
  - generate_card_csv.py: Fetches list of cards from hearthpwn using beautiful soup.
 
+ - util.py: Shared util functions (logging, etc).
+
 = Source =
 Source available at http://github.com/topher200/hearthstone_reddit_card_bot 
