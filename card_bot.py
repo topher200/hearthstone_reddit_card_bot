@@ -83,6 +83,9 @@ def main():
     card_bot = CardBot()
     card_bot.run()
 
+    # TODO: keep a db of comments we've replied to
+    # TODO: figure out how to reply to comments
+
 
 if __name__ == "__main__":
     main()
