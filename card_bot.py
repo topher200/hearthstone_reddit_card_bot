@@ -35,10 +35,10 @@ def parse_cards_csv():
 class CardBot(object):
     def __init__(self):
         self.cards_dict = parse_cards_csv()
-        self.processed_comments = []
+        self.last_id_processed = None
 
     def find_cards_in_comment(self, comment):
-        self.processed_comments.append(comment.id)
+        self.last_id_processed = comment.id
         logging.debug("Processing comment {}".format(comment))
         found_cards = []
         for card_name in self.cards_dict:
@@ -47,10 +47,7 @@ class CardBot(object):
         return found_cards
 
     def get_comments(self, subreddit):
-        place_holder = None
-        if len(self.processed_comments) > 0:
-            place_holder = self.processed_comments[-1]
-        comments = subreddit.get_comments(place_holder=place_holder)
+        comments = subreddit.get_comments(place_holder=self.last_id_processed)
         return comments
 
     def run(self):
@@ -65,7 +62,7 @@ class CardBot(object):
 
             logging.info("Printing found cards")
             for comment in new_comments:
-                if comment.id in self.processed_comments:
+                if we_have_already_replied(comment):
                     logging.debug("Skipping comment {}".format(comment))
                     continue
                 cards_found = self.find_cards_in_comment(comment)
