@@ -66,6 +66,8 @@ class CardBot(object):
                     logging.debug("Skipping comment {}".format(comment))
                     continue
                 cards_found = self.find_cards_in_comment(comment)
+                if not cards_found:
+                    continue
                 for card in cards_found:
                     logging.warning("Found card name {} in comment '{}'"
                                     .format(card, comment.body))
