@@ -8,7 +8,7 @@ import csv
 import httplib2
 import logging
 
-import util
+import logging_util
 
 # These cards cause too many false positives
 BANNED_CARD_LIST = [
@@ -60,7 +60,7 @@ def get_cards_from_page(url):
 
 
 def main():
-  util.setup_logging(verbose=False)
+  logging_util.setup_logging(verbose=False, filename=None)
   logging.info("Starting generate_card_csv.py")
 
   # Grab the cards from each page. We're purposely grabbing from more pages
