@@ -10,6 +10,10 @@ import logging
 
 import util
 
+BANNED_CARD_LIST = [
+  "Blizzard",
+  ]
+
 def get_cards_from_page(url):
   logging.info("getting cards from {}".format(url))
   card_dict = collections.OrderedDict()
@@ -33,6 +37,10 @@ def main():
     url = "http://www.hearthpwn.com/cards?display=1&page={}".format(page_num)
     card_dict.update(get_cards_from_page(url))
   logging.debug("card dict: {}".format(card_dict))
+
+  logging.debug("removing banned cards")
+  for card in BANNED_CARD_LIST:
+    card_dict.pop(card)
 
   logging.info("writing cards to file")
   with open("cards.csv", 'w') as csv_file:
