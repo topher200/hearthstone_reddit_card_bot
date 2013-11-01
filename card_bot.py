@@ -22,8 +22,8 @@ VERSION = "v0.1"
 USER_AGENT = ("Hearthstone Card Bot {} by /u/topher200. "
               "http://github.com:topher200/hearthstone_reddit_card_bot"
               .format(VERSION))
-CARD_LIST_CSV = os.path.join(os.path.dirname(__file__), "cards.csv")
-DATABASE_FILENAME = "test.db"
+CARD_LIST_CSV_FILENAME = os.path.join(os.path.dirname(__file__), "cards.csv")
+DATABASE_FILENAME = "processed_cards.db"
 # Reddit uses two lines for line breaks. I couldn't fake it with \n
 REDDIT_LINE_BREAK = """
 
@@ -35,7 +35,7 @@ SLEEP_TIME_BETWEEN_RUNS = 30  # seconds
 def parse_cards_csv():
   """Returns a dict of {card_name: link_to_card}"""
   card_dict = {}
-  with open(CARD_LIST_CSV) as f:
+  with open(CARD_LIST_CSV_FILENAME) as f:
     for line in csv.reader(f):
       card_dict[line[0]] = line[1]
   return card_dict
