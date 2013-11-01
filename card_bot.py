@@ -8,6 +8,7 @@ pictures and a link to the card.
 Source available at http://github.com/topher200/hearthstone_reddit_card_bot
 """
 
+import anydbm
 import csv
 import logging
 import os
@@ -21,6 +22,7 @@ USER_AGENT = ("Hearthstone Card Bot {} by /u/topher200. "
               "http://github.com:topher200/hearthstone_reddit_card_bot"
               .format(VERSION))
 CARD_LIST_CSV = os.path.join(os.path.dirname(__file__), "cards.csv")
+DATABASE_FILENAME = "test.db"
 
 
 def parse_cards_csv():
@@ -36,6 +38,7 @@ class CardBot(object):
   def __init__(self):
     self.cards_dict = parse_cards_csv()
     self.last_id_processed = None
+    self.database = anydbm.open(DATABASE_FILENAME, "c")
 
   def find_cards_in_comment(self, comment):
     self.last_id_processed = comment.id
@@ -50,6 +53,12 @@ class CardBot(object):
     comments = subreddit.get_comments(place_holder=self.last_id_processed)
     return comments
 
+  def we_have_already_replied(self, comment):
+    return self.database.has_key(str(comment.id))
+
+  def record_comment_as_processed(self, comment):
+    self.database[str(comment.id)] = "Processed"
+
   def run(self):
     r = praw.Reddit(user_agent=USER_AGENT)
     r.login()
@@ -62,28 +71,28 @@ class CardBot(object):
 
       logging.info("Printing found cards")
       for comment in new_comments:
-        if we_have_already_replied(comment):
-          logging.debug("Skipping comment {}".format(comment))
-          continue
         cards_found = self.find_cards_in_comment(comment)
         if not cards_found:
           continue
+        if self.we_have_already_replied(comment):
+          logging.debug("Skipping comment {}".format(comment))
+          continue
+        self.record_comment_as_processed(comment)
         for card in cards_found:
           logging.warning("Found card name {} in comment '{}'"
                           .format(card, comment.body))
 
-        logging.info("Sleeping for 15 seconds between runs")
-        while (time.time() - last_run_time) < 15:
-          time.sleep(.5)
+      logging.info("Sleeping for 15 seconds between runs")
+      while (time.time() - last_run_time) < 15:
+        time.sleep(.5)
 
 
 def main():
-  util.setup_logging(verbose=False)
+  util.setup_logging(verbose=True)
   logging.info("Starting card bot")
   card_bot = CardBot()
   card_bot.run()
 
-  # TODO: keep a db of comments we've replied to
   # TODO: figure out how to reply to comments
 
 
