@@ -39,6 +39,8 @@ BANNED_CARD_LIST = [
   "Uproot",
   "Vanish",
   "Wrath",
+  "Bite",
+  "Windfury",
   ]
 
 def get_cards_from_page(url):
