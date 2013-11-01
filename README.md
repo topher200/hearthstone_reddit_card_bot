@@ -4,8 +4,8 @@ heathstone_reddit_card_bot
 Listens for card names in reddit.com/r/hearthstone comments and replies with
 pictures and a link to the card.
 
-= Files =
-
+Files
+--------------
  - card_bot.py: The main bot. Runs forever once started. Uses PRAW (python reddit api wrapper).
 
  - cards.csv: File that contains the list of cards to look for. Contains name of
@@ -15,12 +15,18 @@ pictures and a link to the card.
 
  - logging_util.py: Logging util functions
 
-= Requirements for running =
-
+Requirements for running
+--------------
  - You must create a praw.ini with PRAW login information. See
    https://praw.readthedocs.org/en/latest/pages/configuration_files.html#example-praw-ini-file
    for an example.
 
-= Source =
-
+Source
+--------------
 Source available at http://github.com/topher200/hearthstone_reddit_card_bot 
+
+Links on reddit
+--------------
+Bot's comment page: http://www.reddit.com/user/HearthstoneCardBot/
+Discussion on bot: http://www.reddit.com/r/hearthstone/comments/1ppjab/uhearthstonecardbot/
+
