@@ -91,7 +91,7 @@ class CardBot(object):
     self.database[hash] = "Posted"
 
   def reply_to_comment(self, comment, cards_found):
-    # Cull cards we've already posted. Record that we're posting new ones
+    # Cull cards we've already posted. Record that we're posting the new ones
     cards_to_post = []
     for card in cards_found:
       if self.we_already_posted_card_in_submission(card, comment.submission):
@@ -100,6 +100,9 @@ class CardBot(object):
       else:
         self.record_posting_card_to_submission(card, comment.submission)
         cards_to_post.append(card)
+    if len(cards_to_post) == 0:
+      logging.info("No need to post: already got all the cards!")
+      return
 
     # Create reply text
     card_reply_texts = []
