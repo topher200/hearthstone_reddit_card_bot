@@ -15,7 +15,7 @@ import os
 import time
 import praw
 
-import util
+import logging_util
 
 VERSION = "v0.1"
 USER_AGENT = ("Hearthstone Card Bot {} by /u/topher200. "
@@ -94,7 +94,7 @@ class CardBot(object):
 
 
 def main():
-  util.setup_logging(verbose=True)
+  logging_util.setup_logging(verbose=False)
   logging.info("Starting card bot")
   card_bot = CardBot()
   card_bot.run()

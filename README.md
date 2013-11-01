@@ -13,7 +13,7 @@ pictures and a link to the card.
 
  - generate_card_csv.py: Fetches list of cards from hearthpwn using beautiful soup.
 
- - util.py: Shared util functions (logging, etc).
+ - logging_util.py: Logging util functions
 
 = Requirements for running =
 
