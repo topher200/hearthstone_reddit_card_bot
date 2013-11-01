@@ -8,6 +8,8 @@ pictures and a link to the card.
 Source available at http://github.com/topher200/hearthstone_reddit_card_bot
 """
 
+from __future__ import unicode_literals
+
 import anydbm
 import csv
 import logging
