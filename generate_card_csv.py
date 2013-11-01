@@ -21,7 +21,8 @@ def get_cards_from_page(url):
   _, response = http.request(url)
   for link in bs4.BeautifulSoup(response, parse_only=bs4.SoupStrainer('a')):
     if link.has_attr("href") and link.has_attr("data-id"):
-      card_dict[link.text] = link['href']
+      # The interal site link doesn't include the root url - we add it
+      card_dict[link.text] = "http://hearthpwn.com{}".format(link['href'])
   return card_dict
 
 
