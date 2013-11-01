@@ -29,18 +29,11 @@ BANNED_CARD_LIST = [
   "Imp",
   "Misdirection",
   "Rampage",
-  "Redemption",
   "Rooted",
-  "Sap",
   "Sheep",
   "Slam",
-  "Sprint",
   "Swipe",
   "The Coin",
-  "Uproot",
-  "Vanish",
-  "Wrath",
-  "Bite",
   "Windfury",
   ]
 
