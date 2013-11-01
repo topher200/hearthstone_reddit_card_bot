@@ -72,10 +72,10 @@ class CardBot(object):
     while True:
       last_run_time = time.time()
 
-      logging.info("Getting new comments")
+      logging.debug("Getting new comments")
       new_comments = self.get_comments(hearthstone_subreddit)
 
-      logging.info("Printing found cards")
+      logging.debug("Printing found cards")
       for comment in new_comments:
         cards_found = self.find_cards_in_comment(comment)
         if not cards_found:
@@ -88,7 +88,7 @@ class CardBot(object):
           logging.warning("Found card name {} in comment '{}'"
                           .format(card, comment.body))
 
-      logging.info("Sleeping for 15 seconds between runs")
+      logging.debug("Sleeping for 15 seconds between runs")
       while (time.time() - last_run_time) < 15:
         time.sleep(.5)
 
