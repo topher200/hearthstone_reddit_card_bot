@@ -39,11 +39,6 @@ BANNED_CARD_LIST = [
   "Windfury",
   ]
 
-BANNED_LINKS = [
-  # There's a Lorewalker Cho NPC as well as minion. We want the minion
-  "http://www.hearthpwn.com/cards/655-lorewalker-cho",
-  ]
-
 def get_cards_from_page(url):
   logging.info("getting cards from {}".format(url))
   card_dict = collections.OrderedDict()
@@ -53,8 +48,6 @@ def get_cards_from_page(url):
     if link.has_attr("href") and link.has_attr("data-id"):
       # The interal site link doesn't include the root url - we add it
       full_link = "http://www.hearthpwn.com{}".format(link['href'])
-      if full_link in BANNED_LINKS:
-        continue
       card_dict[link.text] = full_link
   return card_dict
 
