@@ -60,8 +60,9 @@ class CardBot(object):
   def get_comments(self, subreddit):
     try:
       comments = subreddit.get_comments(place_holder=self.last_id_processed)
-    except praw.errors:
-      logging.warning("Error getting comments: {}".format(sys.exec_info()[0]))
+    except praw.errors.APIException:
+      logging.warning("Error on get_comments: {},{}".
+                      format(sys.exc_info()[0], (sys.exc_info()[1])))
       return []
     return comments
 
