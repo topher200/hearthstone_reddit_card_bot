@@ -29,28 +29,33 @@ DATABASE_FILENAME = "processed_cards.db"
 # As recommended by reddit api docs
 SLEEP_TIME_BETWEEN_RUNS = 30  # seconds
 
+class Card(object):
+  def __init__(self, name, link):
+    self.name = name
+    self.link = link
+
 
 def parse_cards_csv():
-  """Returns a dict of {card_name: link_to_card}"""
-  card_dict = {}
+  """Returns a list of Cards"""
+  cards = []
   with open(CARD_LIST_CSV_FILENAME) as f:
     for line in csv.reader(f):
-      card_dict[line[0]] = line[1]
-  return card_dict
+      cards.append(Card(line[0], line[1]))
+  return cards
 
 
 class CardBot(object):
   def __init__(self):
-    self.cards_dict = parse_cards_csv()
+    self.cards = parse_cards_csv()
     self.last_id_processed = None
     self.database = anydbm.open(DATABASE_FILENAME, "c")
 
   def find_cards_in_comment(self, comment):
     self.last_id_processed = comment.id
     found_cards = []
-    for card_name in self.cards_dict:
-      if card_name in comment.body:
-        found_cards.append(card_name)
+    for card in self.cards:
+      if card.name in comment.body:
+        found_cards.append(card)
     logging.debug("Found {} cards in comment '{}': {}".format(
       len(found_cards), comment.body, found_cards))
     return found_cards
@@ -73,35 +78,33 @@ class CardBot(object):
   def record_comment_as_processed(self, comment):
     self.database[str(comment.id)] = "Processed"
 
-  def _submission_card_hash(self, card_name, submission):
-    # We add a hash key of submission_id and card to the database as a key
-    return str("sub{}_card{}".format(submission.id, card_name))
+  def _submission_card_hash(self, card, submission):
+    # We add a hash key of submission_id and card_name to the database as a key
+    return str("sub{}_card{}".format(submission.id, card.name))
 
-  def we_already_posted_card_in_submission(self, card_name, submission):
-    hash = self._submission_card_hash(card_name, submission)
+  def we_already_posted_card_in_submission(self, card, submission):
+    hash = self._submission_card_hash(card.name, submission)
     return self.database.has_key(hash)
 
-  def record_posting_card_to_submission(self, card_name, submission):
-    hash = self._submission_card_hash(card_name, submission)
+  def record_posting_card_to_submission(self, card, submission):
+    hash = self._submission_card_hash(card.name, submission)
     self.database[hash] = "Posted"
 
   def reply_to_comment(self, comment, cards_found):
     # Cull cards we've already posted. Record that we're posting new ones
     cards_to_post = []
-    for card_name in cards_found:
-      if self.we_already_posted_card_in_submission(card_name,
-                                                   comment.submission):
+    for card in cards_found:
+      if self.we_already_posted_card_in_submission(card, comment.submission):
         logging.info("Skipping {} since we already posted it in {}"
-                     .format(card_name, comment.submission))
+                     .format(card.name, comment.submission))
       else:
-        self.record_posting_card_to_submission(card_name, comment.submission)
-        cards_to_post.append(card_name)
+        self.record_posting_card_to_submission(card, comment.submission)
+        cards_to_post.append(card)
 
     # Create reply text
     card_reply_texts = []
-    for card_name in cards_found:
-      card_reply_texts.append("[{}]({})".format(
-        card_name, self.cards_dict[card_name]))
+    for card in cards_found:
+      card_reply_texts.append("[{}]({})".format(card.name, card.link))
     reply = " | ".join(card_reply_texts)
 
     # Post reply to reddit
