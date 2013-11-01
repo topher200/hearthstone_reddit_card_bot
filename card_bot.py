@@ -78,8 +78,9 @@ class CardBot(object):
         card_name, self.cards_dict[card_name], REDDIT_LINE_BREAK)
     try:
       comment.reply(reply)
-    except praw.errors:
-      logging.warning("Error on reply: {}".format(sys.exec_info()[0]))
+    except praw.errors.APIException:
+      logging.warning("Error on reply: {},{}".
+                      format(sys.exc_info()[0], (sys.exc_info()[1])))
 
   def run(self):
     r = praw.Reddit(user_agent=USER_AGENT)
