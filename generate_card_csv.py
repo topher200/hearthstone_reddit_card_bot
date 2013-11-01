@@ -63,12 +63,22 @@ def main():
   logging_util.setup_logging(verbose=False, filename=None)
   logging.info("Starting generate_card_csv.py")
 
-  # Grab the cards from each page. We're purposely grabbing from more pages
-  # than exist. We're using a dict, so grabbing from pages more than once
-  # won't dupe cards.
+  # Grab the cards from each page. We're purposely grabbing from more pages than
+  # exist. We're using a dict, so grabbing from pages more than once won't dupe
+  # cards. We grab from abilities, minions and weapons since we don't want to
+  # grab heros or hero powers
   card_dict = collections.OrderedDict()
-  for page_num in range(0, 10):
-    url = "http://www.hearthpwn.com/cards?display=1&page={}".format(page_num)
+  for page_num in range(0, 5):
+    url = "http://www.hearthpwn.com/cards/ability?display=1&page={}".format(
+      page_num)
+    card_dict.update(get_cards_from_page(url))
+  for page_num in range(0, 5):
+    url = "http://www.hearthpwn.com/cards/minion?display=1&page={}".format(
+      page_num)
+    card_dict.update(get_cards_from_page(url))
+  for page_num in range(0, 5):
+    url = "http://www.hearthpwn.com/cards/weapon?display=1&page={}".format(
+      page_num)
     card_dict.update(get_cards_from_page(url))
   logging.debug("card dict: {}".format(card_dict))
 
