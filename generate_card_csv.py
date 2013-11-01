@@ -12,6 +12,7 @@ import logging_util
 
 # These cards cause too many false positives
 BANNED_CARD_LIST = [
+  "Archmage",
   "Bananas",
   "Blizzard",
   "Boar",
