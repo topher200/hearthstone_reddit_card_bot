@@ -73,12 +73,38 @@ class CardBot(object):
   def record_comment_as_processed(self, comment):
     self.database[str(comment.id)] = "Processed"
 
+  def _submission_card_hash(self, card_name, submission):
+    # We add a hash key of submission_id and card to the database as a key
+    return str("sub{}_card{}".format(submission.id, card_name))
+
+  def we_already_posted_card_in_submission(self, card_name, submission):
+    hash = self._submission_card_hash(card_name, submission)
+    return self.database.has_key(hash)
+
+  def record_posting_card_to_submission(self, card_name, submission):
+    hash = self._submission_card_hash(card_name, submission)
+    self.database[hash] = "Posted"
+
   def reply_to_comment(self, comment, cards_found):
+    # Cull cards we've already posted. Record that we're posting new ones
+    cards_to_post = []
+    for card_name in cards_found:
+      if self.we_already_posted_card_in_submission(card_name,
+                                                   comment.submission):
+        logging.debug("Skipping {} since we already posted it in {}"
+                      .format(card_name, comment.submission))
+      else:
+        self.record_posting_card_to_submission(card_name, comment.submission)
+        cards_to_post.append(card_name)
+
+    # Create reply text
     card_reply_texts = []
     for card_name in cards_found:
       card_reply_texts.append("[{}]({})".format(
         card_name, self.cards_dict[card_name]))
     reply = " | ".join(card_reply_texts)
+
+    # Post reply to reddit
     try:
       comment.reply(reply)
     except praw.errors.APIException:
