@@ -12,8 +12,9 @@ import anydbm
 import csv
 import logging
 import os
-import time
 import praw
+import sys
+import time
 
 import logging_util
 
@@ -23,6 +24,10 @@ USER_AGENT = ("Hearthstone Card Bot {} by /u/topher200. "
               .format(VERSION))
 CARD_LIST_CSV = os.path.join(os.path.dirname(__file__), "cards.csv")
 DATABASE_FILENAME = "test.db"
+# Reddit uses two lines for line breaks. I couldn't fake it with \n
+REDDIT_LINE_BREAK = """
+
+"""
 
 
 def parse_cards_csv():
@@ -51,7 +56,11 @@ class CardBot(object):
     return found_cards
 
   def get_comments(self, subreddit):
-    comments = subreddit.get_comments(place_holder=self.last_id_processed)
+    try:
+      comments = subreddit.get_comments(place_holder=self.last_id_processed)
+    except praw.errors:
+      logging.warning("Error getting comments: {}".format(sys.exec_info()[0]))
+      return []
     return comments
 
   def we_have_already_replied(self, comment):
@@ -59,6 +68,16 @@ class CardBot(object):
 
   def record_comment_as_processed(self, comment):
     self.database[str(comment.id)] = "Processed"
+
+  def reply_to_comment(self, comment, cards_found):
+    reply = ""
+    for card_name in cards_found:
+      reply += "[{}]({}){}".format(
+        card_name, self.cards_dict[card_name], REDDIT_LINE_BREAK)
+    try:
+      comment.reply(reply)
+    except praw.errors:
+      logging.warning("Error on reply: {}".format(sys.exec_info()[0]))
 
   def run(self):
     r = praw.Reddit(user_agent=USER_AGENT)
@@ -83,10 +102,10 @@ class CardBot(object):
         if self.we_have_already_replied(comment):
           logging.debug("Already replied to comment {}".format(comment))
           continue
+
+        logging.info("Responding to comment {}".format(comment))
         self.record_comment_as_processed(comment)
-        for card in cards_found:
-          logging.warning("Found card name {} in comment '{}'"
-                          .format(card, comment.body))
+        self.reply_to_comment(comment, cards_found)
 
       logging.debug("Sleeping for 15 seconds between runs")
       while (time.time() - last_run_time) < 15:
@@ -98,8 +117,6 @@ def main():
   logging.info("Starting card bot")
   card_bot = CardBot()
   card_bot.run()
-
-  # TODO: figure out how to reply to comments
 
 
 if __name__ == "__main__":
