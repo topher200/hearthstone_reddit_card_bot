@@ -27,9 +27,7 @@ USER_AGENT = ("Hearthstone Card Bot {} by /u/topher200. "
 CARD_LIST_CSV_FILENAME = os.path.join(os.path.dirname(__file__), "cards.csv")
 DATABASE_FILENAME = "processed_cards.db"
 # Reddit uses two lines for line breaks. I couldn't fake it with \n
-REDDIT_LINE_BREAK = """
-
-"""
+BREAK_BETWEEN_CARDS_IN_REPLY = " | "
 # As recommended by reddit api docs
 SLEEP_TIME_BETWEEN_RUNS = 30  # seconds
 
@@ -81,7 +79,7 @@ class CardBot(object):
     reply = ""
     for card_name in cards_found:
       reply += "[{}]({}){}".format(
-        card_name, self.cards_dict[card_name], REDDIT_LINE_BREAK)
+        card_name, self.cards_dict[card_name], BREAK_BETWEEN_CARDS_IN_REPLY)
     try:
       comment.reply(reply)
     except praw.errors.APIException:
