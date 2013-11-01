@@ -12,6 +12,30 @@ import util
 
 BANNED_CARD_LIST = [
   "Blizzard",
+  "DEBUG",
+  "Flare",
+  "Imp",
+  "Hyena",
+  "Misdirection",
+  "Charge",
+  "Claw",
+  "Execute",
+  "Sap",
+  "Bananas",
+  "Frog",
+  "Redemption",
+  "Rampage",
+  "Sheep",
+  "Slam",
+  "Sprint",
+  "Swipe",
+  "Vanish",
+  "Wrath",
+  "Chicken",
+  "Dream",
+  "Rooted",
+  "The Coin",
+  "Uproot",
   ]
 
 def get_cards_from_page(url):
