@@ -91,8 +91,8 @@ class CardBot(object):
     for card_name in cards_found:
       if self.we_already_posted_card_in_submission(card_name,
                                                    comment.submission):
-        logging.debug("Skipping {} since we already posted it in {}"
-                      .format(card_name, comment.submission))
+        logging.info("Skipping {} since we already posted it in {}"
+                     .format(card_name, comment.submission))
       else:
         self.record_posting_card_to_submission(card_name, comment.submission)
         cards_to_post.append(card_name)
