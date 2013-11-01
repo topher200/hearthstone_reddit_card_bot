@@ -1,4 +1,4 @@
-heathstone_reddit_card_bot
+/r/Hearthstone's Card Bot
 ==========================
 
 Listens for card names in reddit.com/r/hearthstone comments and replies with
