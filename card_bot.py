@@ -146,7 +146,7 @@ class CardBot(object):
 
 
 def main():
-  logging_util.setup_logging(verbose=False)
+  logging_util.setup_logging(verbose=False, filename="log")
   logging.info("Starting card bot")
   card_bot = CardBot()
   card_bot.run()
