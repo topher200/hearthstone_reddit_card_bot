@@ -77,6 +77,10 @@ def main():
     card_dict.update(get_cards_from_page(url))
   logging.debug("card dict: {}".format(card_dict))
 
+  if card_dict == {}:
+    logging.error("Getting cards failed!")
+    return
+
   logging.debug("removing banned cards")
   for card in BANNED_CARD_LIST:
     card_dict.pop(card)
