@@ -51,7 +51,7 @@ class CardBot(object):
     self.last_id_processed = comment.id
     found_cards = []
     for card_name in self.cards_dict:
-      if card_name in comment.body:
+      if card_name.lower() in comment.body.lower():
         found_cards.append(card_name)
     logging.debug("Found {} cards in comment '{}': {}".format(
       len(found_cards), comment.body, found_cards))
