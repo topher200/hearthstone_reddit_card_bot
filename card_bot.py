@@ -42,11 +42,12 @@ class CardBot(object):
 
   def find_cards_in_comment(self, comment):
     self.last_id_processed = comment.id
-    logging.debug("Processing comment {}".format(comment))
     found_cards = []
     for card_name in self.cards_dict:
       if card_name in comment.body:
         found_cards.append(card_name)
+    logging.debug("Found {} cards in comment '{}': {}".format(
+      len(found_cards), comment, found_cards))
     return found_cards
 
   def get_comments(self, subreddit):
