@@ -4,6 +4,10 @@
 Listens for card names in reddit.com/r/hearthstone comments and replies with
 pictures and a link to the card.
 
+Bot's reddit page: http://www.reddit.com/user/HearthstoneCardBot/
+
+Discussion of bot: http://www.reddit.com/r/hearthstone/comments/1ppjab/uhearthstonecardbot/
+
 Files
 --------------
  - card_bot.py: The main bot. Runs forever once started. Uses PRAW (python reddit api wrapper).
@@ -24,9 +28,4 @@ Requirements for running
 Source
 --------------
 Source available at http://github.com/topher200/hearthstone_reddit_card_bot 
-
-Links on reddit
---------------
-Bot's comment page: http://www.reddit.com/user/HearthstoneCardBot/
-Discussion on bot: http://www.reddit.com/r/hearthstone/comments/1ppjab/uhearthstonecardbot/
 
