@@ -64,6 +64,11 @@ class CardBot(object):
     r = praw.Reddit(user_agent=USER_AGENT)
     r.login()
     hearthstone_subreddit = r.get_subreddit('hearthstone')
+
+    logging.info("Querying for latest comment id")
+    for comment in self.get_comments(hearthstone_subreddit):
+      self.last_id_processed = comment.id
+
     while True:
       last_run_time = time.time()
 
@@ -76,7 +81,7 @@ class CardBot(object):
         if not cards_found:
           continue
         if self.we_have_already_replied(comment):
-          logging.debug("Skipping comment {}".format(comment))
+          logging.debug("Already replied to comment {}".format(comment))
           continue
         self.record_comment_as_processed(comment)
         for card in cards_found:
