@@ -24,5 +24,3 @@ pictures and a link to the card.
 = Source =
 
 Source available at http://github.com/topher200/hearthstone_reddit_card_bot 
-
-= Version v1.0 =
