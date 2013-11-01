@@ -20,6 +20,7 @@ BANNED_CARD_LIST = [
   "DEBUG",
   "Defender",
   "Dream",
+  "Dispel",
   "Execute",
   "Flare",
   "Frog",
