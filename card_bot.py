@@ -83,11 +83,11 @@ class CardBot(object):
     return str("sub{}_card{}".format(submission.id, card.name))
 
   def we_already_posted_card_in_submission(self, card, submission):
-    hash = self._submission_card_hash(card.name, submission)
+    hash = self._submission_card_hash(card, submission)
     return self.database.has_key(hash)
 
   def record_posting_card_to_submission(self, card, submission):
-    hash = self._submission_card_hash(card.name, submission)
+    hash = self._submission_card_hash(card, submission)
     self.database[hash] = "Posted"
 
   def reply_to_comment(self, comment, cards_found):
