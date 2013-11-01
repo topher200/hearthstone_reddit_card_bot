@@ -18,7 +18,6 @@ import time
 
 import logging_util
 
-VERSION = "v0.1"
 USER_AGENT = ("Hearthstone Card Bot {} by /u/topher200. "
               "http://github.com:topher200/hearthstone_reddit_card_bot"
               .format(VERSION))
