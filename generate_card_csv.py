@@ -7,7 +7,6 @@ import collections
 import csv
 import httplib2
 import logging
-import re
 
 import util
 
@@ -15,12 +14,11 @@ def get_cards_from_page(url):
   logging.info("getting cards from {}".format(url))
   card_dict = collections.OrderedDict()
   http = httplib2.Http()
-  status, response = http.request(url)
+  _, response = http.request(url)
   for link in bs4.BeautifulSoup(response, parse_only=bs4.SoupStrainer('a')):
     if link.has_attr("href") and link.has_attr("data-id"):
       card_dict[link.text] = link['href']
   return card_dict
-    
 
 
 def main():
