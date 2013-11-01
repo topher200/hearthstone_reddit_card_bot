@@ -24,7 +24,6 @@ BANNED_CARD_LIST = [
   "Flare",
   "Frog",
   "Gnoll",
-  "Hogger",
   "Hyena",
   "Imp",
   "Misdirection",
