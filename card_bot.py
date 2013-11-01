@@ -47,7 +47,7 @@ class CardBot(object):
       if card_name in comment.body:
         found_cards.append(card_name)
     logging.debug("Found {} cards in comment '{}': {}".format(
-      len(found_cards), comment, found_cards))
+      len(found_cards), comment.body, found_cards))
     return found_cards
 
   def get_comments(self, subreddit):
