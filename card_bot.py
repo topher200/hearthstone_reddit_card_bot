@@ -66,7 +66,10 @@ class CardBot(object):
       logging.warning("Error on get_comments: {},{}".
                       format(sys.exc_info()[0], (sys.exc_info()[1])))
       return []
-    return comments
+    # Take out comments by me
+    comments_from_everyone_else = [c for c in comments
+                                   if c.author.name != u'HearthstoneCardBot']
+    return comments_from_everyone_else
 
   def we_have_already_replied(self, comment):
     return self.database.has_key(str(comment.id))
