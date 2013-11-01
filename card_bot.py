@@ -29,6 +29,7 @@ DATABASE_FILENAME = "processed_cards.db"
 # As recommended by reddit api docs
 SLEEP_TIME_BETWEEN_RUNS = 30  # seconds
 
+
 class Card(object):
   def __init__(self, name, link):
     self.name = name

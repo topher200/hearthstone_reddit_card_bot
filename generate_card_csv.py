@@ -39,6 +39,7 @@ BANNED_CARD_LIST = [
   "Windfury",
   ]
 
+
 def get_cards_from_page(url):
   logging.info("getting cards from {}".format(url))
   card_dict = collections.OrderedDict()
