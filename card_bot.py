@@ -28,6 +28,8 @@ DATABASE_FILENAME = "test.db"
 REDDIT_LINE_BREAK = """
 
 """
+# As recommended by reddit api docs
+SLEEP_TIME_BETWEEN_RUNS = 30  # seconds
 
 
 def parse_cards_csv():
@@ -107,8 +109,9 @@ class CardBot(object):
         self.record_comment_as_processed(comment)
         self.reply_to_comment(comment, cards_found)
 
-      logging.debug("Sleeping for 15 seconds between runs")
-      while (time.time() - last_run_time) < 15:
+      logging.debug("Sleeping for {} seconds between runs".
+                    format(SLEEP_TIME_BETWEEN_RUNS))
+      while (time.time() - last_run_time) < SLEEP_TIME_BETWEEN_RUNS:
         time.sleep(.5)
 
 
