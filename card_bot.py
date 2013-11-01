@@ -93,7 +93,7 @@ class CardBot(object):
     r.login()
     hearthstone_subreddit = r.get_subreddit('hearthstone')
 
-    logging.info("Querying for latest comment id")
+    logging.debug("Querying for latest comment id")
     for comment in self.get_comments(hearthstone_subreddit):
       self.last_id_processed = comment.id
 
