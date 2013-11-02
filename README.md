@@ -25,6 +25,10 @@ Requirements for running
    https://praw.readthedocs.org/en/latest/pages/configuration_files.html#example-praw-ini-file
    for an example.
 
+ - Run card_bot.py. It creates a database and a log file on startup. Future runs
+   will use the same database and log file. The bot only responds to comments
+   made AFTER it has started running.
+
 Source
 --------------
 Source available at http://github.com/topher200/hearthstone_reddit_card_bot 
