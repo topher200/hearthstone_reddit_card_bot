@@ -121,7 +121,7 @@ class CardBot(object):
 
     # Create reply text
     card_texts = []
-    for card in cards_found:
+    for card in cards_to_post:
       card_texts.append(card.generate_markdown_formatted_link())
     reply = " ^| ".join(card_texts)
 
