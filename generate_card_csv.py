@@ -15,6 +15,7 @@ import logging_util
 BANNED_CARD_LIST = [
   "Archmage",
   "Bananas",
+  "Bite",
   "Blizzard",
   "Boar",
   "Brewmaster",
