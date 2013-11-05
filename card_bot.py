@@ -32,9 +32,10 @@ SLEEP_TIME_BETWEEN_RUNS = 30  # seconds
 
 
 class Card(object):
-  def __init__(self, name, link):
+  def __init__(self, name, card_page_link, image_link):
     self.name = name
-    self.link = link
+    self.card_page_link = card_page_link
+    self.image_link = image_link
 
   def superscripted_name(self):
     # Add superscript after teach space

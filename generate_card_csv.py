@@ -49,13 +49,17 @@ def get_cards_from_page(url):
   http = httplib2.Http()
   _, response = http.request(url)
   for tr in bs4.BeautifulSoup(response).find_all("tr"):
-    td = tr.find('td', {'class': "visual-details-cell"})
-    if not td:
+    details_td = tr.find('td', {'class': "visual-details-cell"})
+    image_td = tr.find('td', {'class': "visual-image-cell"})
+    if not details_td or not image_td:
       continue
+    card_name = details_td.a.text
     # The interal site link doesn't include the root url - we add it
-    full_link = "http://www.hearthpwn.com{}".format(td.a['href'])
-    card_name = td.a.text
-    card_dict[card_name] = card_bot.Card(card_name, full_link)
+    full_card_page_link = "http://www.hearthpwn.com{}".format(
+      details_td.a['href'])
+    image_link = image_td.img['src']
+    card_dict[card_name] = card_bot.Card(
+      card_name, full_card_page_link, image_link)
   return card_dict
 
 
@@ -93,7 +97,7 @@ def main():
   with open("cards.csv", 'w') as csv_file:
     csv_writer = csv.writer(csv_file)
     for card in card_dict.values():
-      csv_writer.writerow([card.name, card.link])
+      csv_writer.writerow([card.name, card.card_page_link, card.image_link])
 
 
 if __name__ == "__main__":
