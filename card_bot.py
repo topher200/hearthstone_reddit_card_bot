@@ -72,7 +72,7 @@ class CardBot(object):
       if card.name in comment.body:
         found_cards.append(card)
     logging.debug("Found {} cards in comment '{}': {}".format(
-      len(found_cards), comment.body, found_cards))
+      len(found_cards), comment.body, [c.name for c in found_cards]))
     return found_cards
 
   def get_comments(self, subreddit):
@@ -110,7 +110,7 @@ class CardBot(object):
     cards_to_post = []
     for card in cards_found:
       if self.we_already_posted_card_in_submission(card, comment.submission):
-        logging.info("Skipping {} since we already posted it in {}"
+        logging.info("Skipping '{}' since we already posted it in {}"
                      .format(card.name, comment.submission))
       else:
         self.record_posting_card_to_submission(card, comment.submission)
@@ -153,10 +153,10 @@ class CardBot(object):
         if not cards_found:
           continue
         if self.we_have_already_replied(comment):
-          logging.debug("Already replied to comment {}".format(comment))
+          logging.debug("Already replied to comment '{}'".format(comment))
           continue
 
-        logging.info("Responding to comment {}".format(comment))
+        logging.info("Responding to comment '{}'".format(comment))
         self.record_comment_as_processed(comment)
         self.reply_to_comment(comment, cards_found)
 
