@@ -45,7 +45,8 @@ class Card(object):
 
   def generate_markdown_formatted_link(self):
     """Create a reddit-ready link with card text and image link"""
-    return "[{}]({})" .format(self.superscripted_name(), self.link)
+    return "[{}]({})^\([img]({})\)" .format(
+      self.superscripted_name(), self.card_page_link, self.image_link)
 
 
 def parse_cards_csv():
@@ -53,7 +54,7 @@ def parse_cards_csv():
   cards = []
   with open(CARD_LIST_CSV_FILENAME) as f:
     for line in csv.reader(f):
-      cards.append(Card(line[0], line[1]))
+      cards.append(Card(line[0], line[1], line[2]))
   return cards
 
 
