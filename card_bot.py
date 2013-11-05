@@ -35,6 +35,16 @@ class Card(object):
     self.name = name
     self.link = link
 
+  def superscripted_name(self):
+    # Add superscript after teach space
+    name = self.name.replace(" ", " ^")
+    # Add a superscript to the front of the text
+    return "^{}".format(name)
+
+  def generate_markdown_formatted_link(self):
+    """Create a reddit-ready link with card text and image link"""
+    return "[{}]({})" .format(self.superscripted_name(), self.link)
+
 
 def parse_cards_csv():
   """Returns a list of Cards"""
@@ -106,10 +116,10 @@ class CardBot(object):
       return
 
     # Create reply text
-    card_reply_texts = []
+    card_texts = []
     for card in cards_found:
-      card_reply_texts.append("[{}]({})".format(card.name, card.link))
-    reply = " | ".join(card_reply_texts)
+      card_texts.append(card.generate_markdown_formatted_link())
+    reply = " ^| ".join(card_texts)
 
     # Post reply to reddit
     try:
