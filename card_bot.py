@@ -16,6 +16,7 @@ import csv
 import logging
 import os
 import praw
+import requests
 import sys
 import time
 
@@ -78,7 +79,7 @@ class CardBot(object):
   def get_comments(self, subreddit):
     try:
       comments = subreddit.get_comments(place_holder=self.last_id_processed)
-    except praw.errors.APIException:
+    except (praw.errors.APIException, requests.exceptions.HTTPError):
       logging.warning("Error on get_comments: {},{}".
                       format(sys.exc_info()[0], (sys.exc_info()[1])))
       return []
@@ -128,7 +129,7 @@ class CardBot(object):
     # Post reply to reddit
     try:
       comment.reply(reply)
-    except praw.errors.APIException:
+    except (praw.errors.APIException, requests.exceptions.HTTPError):
       logging.warning("Error on reply: {},{}".
                       format(sys.exc_info()[0], (sys.exc_info()[1])))
 
