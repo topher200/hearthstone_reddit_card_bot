@@ -17,6 +17,7 @@ BANNED_CARD_LIST = [
   "Bananas",
   "Blizzard",
   "Boar",
+  "Brewmaster",
   "Silence",
   "Charge",
   "Chicken",
