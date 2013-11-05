@@ -11,6 +11,7 @@ Source available at http://github.com/topher200/hearthstone_reddit_card_bot
 from __future__ import unicode_literals
 
 import anydbm
+import argparse
 import csv
 import logging
 import os
@@ -56,10 +57,11 @@ def parse_cards_csv():
 
 
 class CardBot(object):
-  def __init__(self):
+  def __init__(self, subreddit):
     self.cards = parse_cards_csv()
     self.last_id_processed = None
     self.database = anydbm.open(DATABASE_FILENAME, "c")
+    self.subreddit = subreddit
 
   def find_cards_in_comment(self, comment):
     self.last_id_processed = comment.id
@@ -131,7 +133,7 @@ class CardBot(object):
   def run(self):
     r = praw.Reddit(user_agent=USER_AGENT)
     r.login()
-    hearthstone_subreddit = r.get_subreddit('hearthstone')
+    hearthstone_subreddit = r.get_subreddit(self.subreddit)
 
     logging.debug("Querying for latest comment id")
     for comment in self.get_comments(hearthstone_subreddit):
@@ -163,9 +165,23 @@ class CardBot(object):
 
 
 def main():
-  logging_util.setup_logging(verbose=False, filename="log")
+  parser = argparse.ArgumentParser()
+  parser.add_argument('--test', action='store_true',
+                      help="Monitor /r/test instead of /r/hearthstone")
+  parser.add_argument('-v', '--verbose', action='store_true',
+                      help="Output debug logs")
+  args = parser.parse_args()
+
+  logging_util.setup_logging(verbose=args.verbose, filename="log")
   logging.info("Starting card bot")
-  card_bot = CardBot()
+
+  if args.test:
+    subreddit = "test"
+  else:
+    subreddit = "hearthstone"
+  logging.debug("Monitoring /r/{}".format(subreddit))
+
+  card_bot = CardBot(subreddit)
   card_bot.run()
 
 
