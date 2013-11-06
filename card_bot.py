@@ -136,7 +136,7 @@ class CardBot(object):
   def run(self):
     r = praw.Reddit(user_agent=USER_AGENT)
     r.login()
-    hearthstone_subreddit = r.get_subreddit(self.subreddit)
+    hearthstone_subreddit = r.get_subreddit(self.subreddit, fetch=True)
 
     logging.debug("Querying for latest comment id")
     for comment in self.get_comments(hearthstone_subreddit):
