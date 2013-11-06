@@ -79,6 +79,11 @@ class CardBot(object):
   def get_comments(self, subreddit):
     try:
       comments = subreddit.get_comments(place_holder=self.last_id_processed)
+      # PRAW objects are lazily fetched. I tried using fetch=True as mentioned
+      # in the docs, but get_comments doesn't seem to take that parameter. I'm
+      # accessing each element here now so that it officially gets fetched
+      # inside my try/catch block.
+      comments = [c for c in comments]
     except (praw.errors.APIException, requests.exceptions.HTTPError):
       logging.warning("Error on get_comments: {},{}".
                       format(sys.exc_info()[0], (sys.exc_info()[1])))
