@@ -34,6 +34,7 @@ BANNED_CARD_LIST = [
   "Hyena",
   "Imp",
   "Misdirection",
+  "Lord of the Arena",
   "Rampage",
   "Rooted",
   "Sheep",
