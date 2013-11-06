@@ -42,6 +42,7 @@ BANNED_CARD_LIST = [
   "Swipe",
   "The Coin",
   "Windfury",
+  "Wrath",
   ]
 
 
