@@ -117,7 +117,8 @@ class CardBot(object):
         self.record_posting_card_to_submission(card, comment.submission)
         cards_to_post.append(card)
     if len(cards_to_post) == 0:
-      logging.info("No need to post: already got all the cards!")
+      logging.info("No need to post - already got all the cards: '{}'"
+                   .format(comment.body))
       return
 
     # Create reply text
