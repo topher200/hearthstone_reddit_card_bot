@@ -67,7 +67,6 @@ class CardBot(object):
     self.subreddit = subreddit
 
   def find_cards_in_comment(self, comment):
-    self.last_id_processed = comment.id
     found_cards = []
     for card in self.cards:
       if card.name in comment.body:
@@ -88,6 +87,9 @@ class CardBot(object):
       logging.warning("Error on get_comments: {},{}".
                       format(sys.exc_info()[0], (sys.exc_info()[1])))
       return []
+    # Record the last comment we've seen, for next time we check
+    if len(comments) > 0:
+      self.last_id_processed = comments[-1].id
     # Take out comments by me
     comments_from_everyone_else = [c for c in comments
                                    if c.author.name != u'HearthstoneCardBot']
