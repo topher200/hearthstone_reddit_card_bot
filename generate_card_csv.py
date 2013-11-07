@@ -35,6 +35,7 @@ BANNED_CARD_LIST = [
   "Imp",
   "Misdirection",
   "Lord of the Arena",
+  "Panther",
   "Rampage",
   "Rooted",
   "Sheep",
