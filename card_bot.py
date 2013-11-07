@@ -167,8 +167,8 @@ class CardBot(object):
         self.record_comment_as_processed(comment)
         self.reply_to_comment(comment, cards_found)
 
-      logging.debug("Sleeping for {} seconds between runs".
-                    format(SLEEP_TIME_BETWEEN_RUNS))
+      logging.debug("This run took {:.2f} seconds".
+                    format(time.time() - last_run_time))
       while (time.time() - last_run_time) < SLEEP_TIME_BETWEEN_RUNS:
         time.sleep(.5)
 
