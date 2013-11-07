@@ -76,7 +76,7 @@ class CardBot(object):
       len(found_cards), comment.body, [c.name for c in found_cards]))
     return found_cards
 
-  def get_comments(self, subreddit):
+  def get_latest_comments(self, subreddit):
     try:
       comments = subreddit.get_comments(place_holder=self.last_id_processed)
       # PRAW objects are lazily fetched. I tried using fetch=True as mentioned
@@ -145,14 +145,14 @@ class CardBot(object):
     hearthstone_subreddit = r.get_subreddit(self.subreddit, fetch=True)
 
     logging.debug("Querying for latest comment id")
-    for comment in self.get_comments(hearthstone_subreddit):
+    for comment in self.get_latest_comments(hearthstone_subreddit):
       self.last_id_processed = comment.id
 
     while True:
       last_run_time = time.time()
 
       logging.debug("Getting new comments")
-      new_comments = self.get_comments(hearthstone_subreddit)
+      new_comments = self.get_latest_comments(hearthstone_subreddit)
 
       logging.debug("Printing found cards")
       for comment in new_comments:
