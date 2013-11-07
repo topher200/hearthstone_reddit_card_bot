@@ -46,7 +46,7 @@ class Card(object):
 
   def generate_markdown_formatted_link(self):
     """Create a reddit-ready link with card text and image link"""
-    return "[{}]({}) ^\([img]({})\)" .format(
+    return r"[{}]({}) ^\([img]({})\)" .format(
       self.superscripted_name(), self.card_page_link, self.image_link)
 
 
